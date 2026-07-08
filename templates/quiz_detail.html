@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>{{ quiz.title }}</h2>
+<div class="alert alert-warning text-center">
+
+    <h4>
+        ⏰ Time Left:
+        <span id="timer">30</span> seconds
+    </h4>
+
+</div>
+<p>Total Questions: {{ questions|length }}</p>
+
+<p>{{ quiz.description }}</p>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {% for question in questions %}
+
+    <div class="card mb-3">
+
+        <div class="card-body">
+
+            <h5>
+    Question {{ forloop.counter }} of {{ questions|length }}
+</h5>
+
+<p class="text-primary">
+    Progress:
+    {% widthratio forloop.counter questions|length 100 %}% Completed
+</p>
+
+<div class="progress mb-3">
+    <div class="progress-bar bg-success" style="width:100%">
+    </div>
+</div>
+    
+
+            <p>{{ question.question }}</p>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio"
+                       name="{{ question.id }}"
+                       value="{{ question.option1 }}"
+                       required>
+                <label class="form-check-label">
+                    {{ question.option1 }}
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio"
+                       name="{{ question.id }}"
+                       value="{{ question.option2 }}">
+                <label class="form-check-label">
+                    {{ question.option2 }}
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio"
+                       name="{{ question.id }}"
+                       value="{{ question.option3 }}">
+                <label class="form-check-label">
+                    {{ question.option3 }}
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio"
+                       name="{{ question.id }}"
+                       value="{{ question.option4 }}">
+                <label class="form-check-label">
+                    {{ question.option4 }}
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+    <button type="submit" class="btn btn-success">
+        Submit Quiz
+    </button>
+
+</form>
+<script>
+
+let timeLeft = 30;
+
+let timer = document.getElementById("timer");
+
+let countdown = setInterval(function(){
+
+    timeLeft--;
+
+    timer.innerHTML = timeLeft;
+
+    if(timeLeft <= 0){
+
+        clearInterval(countdown);
+
+        document.querySelector("form").submit();
+
+    }
+
+},1000);
+
+</script>
+
+{% endblock %}

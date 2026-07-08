@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mb-5">
+
+    <h1>Welcome to Smart Quiz</h1>
+
+    <p class="lead">
+        Test your knowledge, improve your skills, and track your progress.
+    </p>
+
+</div>
+<form method="GET" class="mb-4">
+
+    <div class="input-group">
+
+        <input
+            type="text"
+            name="q"
+            value="{{ query|default:'' }}"
+            class="form-control"
+            placeholder="Search Quiz">
+
+        <button class="btn btn-primary">
+            Search
+        </button>
+
+    </div>
+
+</form>
+
+
+<h2 class="text-center mb-4">Available Quizzes</h2>
+
+<div class="mb-4">
+
+    <a href="/" class="btn btn-secondary">
+        All
+    </a>
+
+    {% for category in categories %}
+
+        <a href="?category={{ category.id }}&q={{ query|default:'' }}"
+           class="btn btn-outline-primary">
+
+            {{ category.name }}
+
+        </a>
+
+    {% endfor %}
+
+</div>
+
+<div class="row">
+
+
+{% for quiz in quizzes %}
+
+<div class="col-md-4">
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <h4>{{ quiz.title }}</h4>
+
+            <p>{{ quiz.description }}</p>
+
+            <p>
+                <strong>Category:</strong>
+                {{ quiz.category.name }}
+            </p>
+
+            <p>
+                <strong>Total Marks:</strong>
+                {{ quiz.total_marks }}
+            </p>
+            <p>
+    <strong>Difficulty:</strong>
+
+    {% if quiz.difficulty == "Easy" %}
+        <span class="badge bg-success">
+            Easy
+        </span>
+
+    {% elif quiz.difficulty == "Medium" %}
+        <span class="badge bg-warning text-dark">
+            Medium
+        </span>
+
+    {% else %}
+        <span class="badge bg-danger">
+            Hard
+        </span>
+    {% endif %}
+</p>
+
+            <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-primary">
+                Start Quiz
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<h3>No Quiz Available</h3>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

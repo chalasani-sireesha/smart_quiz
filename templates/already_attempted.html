@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-body text-center">
+
+        <h2 class="text-danger mb-3">
+            Quiz Already Attempted
+        </h2>
+
+        <p class="lead">
+            You have already attempted
+            <strong>{{ quiz.title }}</strong>.
+        </p>
+
+        <p>
+            You can view your result in your dashboard or quiz history.
+        </p>
+
+        <a href="/" class="btn btn-primary">
+            Back to Home
+        </a>
+
+        <a href="{% url 'quiz_history' %}" class="btn btn-success">
+            Quiz History
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

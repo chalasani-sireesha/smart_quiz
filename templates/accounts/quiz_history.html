@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">📜 Quiz History</h2>
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-dark">
+
+        <tr>
+            <th>Quiz</th>
+            <th>Score</th>
+            <th>Date</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for result in results %}
+
+        <tr>
+
+            <td>{{ result.quiz.title }}</td>
+
+            <td>{{ result.score }}/{{ result.total_questions }}</td>
+
+            <td>{{ result.created_at }}</td>
+
+        </tr>
+
+    {% empty %}
+
+        <tr>
+
+            <td colspan="3" class="text-center">
+                No quiz attempts yet.
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

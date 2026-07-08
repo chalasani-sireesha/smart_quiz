@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card text-center">
+
+<div class="card-body">
+
+<h2>Quiz Result</h2>
+
+<hr>
+
+<h2 class="mb-4">Quiz Result</h2>
+
+<h4>
+    Score:
+    {{ result.score }}/{{ result.total_questions }}
+</h4>
+
+<h4>
+    Percentage:
+
+    {% widthratio result.score result.total_questions 100 %}%
+
+</h4>
+
+{% widthratio result.score result.total_questions 100 as percentage %}
+
+{% if percentage >= 60 %}
+
+<div class="alert alert-success">
+
+    🎉 <strong>PASS</strong>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-danger">
+
+    ❌ <strong>FAIL</strong>
+
+</div>
+
+{% endif %}
+<hr>
+
+<h3>Answer Review</h3>
+
+{% for answer in answers %}
+
+<div class="card mb-3">
+
+    <div class="card-body">
+
+        <h5>{{ answer.question }}</h5>
+
+        <p>
+            <strong>Your Answer:</strong>
+
+            {% if answer.selected == answer.correct %}
+                <span class="text-success">
+                    ✔ {{ answer.selected }}
+                </span>
+            {% else %}
+                <span class="text-danger">
+                    ✖ {{ answer.selected }}
+                </span>
+            {% endif %}
+        </p>
+
+        <p>
+            <strong>Correct Answer:</strong>
+            <span class="text-success">
+                {{ answer.correct }}
+            </span>
+        </p>
+
+    </div>
+
+</div>
+
+{% endfor %}
+<div class="mt-4">
+
+    <a href="{% url 'download_certificate' %}" class="btn btn-success">
+        📄 Download Certificate
+    </a>
+
+    <a href="/" class="btn btn-primary">
+        Back to Home
+    </a>
+
+</div>
+</div>
+
+</div>
+
+{% endblock %}
